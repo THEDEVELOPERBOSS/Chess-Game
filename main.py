@@ -73,11 +73,22 @@ small_black_images = [black_pawn_small, black_queen_small, black_king_small, bla
 piece_list = ['pawn', 'queen', 'king', 'knight', 'rook', 'bishop']
 # Check variables/flashing counter
 
+
+# Draw main game board
+def draw_board():    
+    for i in range(32): # Get away with every other rectangle being background color so we don't need 64 only 32
+        column = i % 4 # % is modulo operator. Checks what the remainder is 
+        row = i // 4 # Round down to the nearest whole integer
+        if row % 2 == 0: 
+            pygame.draw.rect(screen, 'light gray', [600 - (column * 200), ])
+# Time stamp 26:26
+
 # main game loop 
 run = True
 while run:
     timer.tick(fps)
     screen.fill('dark gray') # Background color 
+    draw_board()
     
     # Event handling
     for event in pygame.event.get(): # gets keyboard, mouse, etc from computer 
