@@ -79,10 +79,16 @@ def draw_board():
     for i in range(32): # Get away with every other rectangle being background color so we don't need 64 only 32
         column = i % 4 # % is modulo operator. Checks what the remainder is 
         row = i // 4 # Round down to the nearest whole integer
-        if row % 2 == 0: 
-            pygame.draw.rect(screen, 'light gray', [600 - (column * 200), ])
-# Time stamp 26:26
-
+        if row % 2 == 0: # makes checkers on checkerboard                   
+            pygame.draw.rect(screen, 'light gray', [600 - (column * 200), row * 100, 100, 100])
+        else :                          
+            pygame.draw.rect(screen, 'light gray', [700 - (column * 200), row * 100, 100, 100])
+        pygame.draw.rect(screen, 'gray', [0, 800, WIDTH, 100]) # draw borders for bottom and top
+        pygame.draw.rect(screen, 'gold', [0, 800, WIDTH, 100], 5) # border for it 
+        pygame.draw.rect(screen, 'gold', [800, 0, 200, HEIGHT], 5) # golden rectangle on right side going up and down
+        status_text = ['White: Select a Piece to Move', 'White: Select a Destination',
+                       'Black: Select a Piece to Move', 'Black: Select a Destination']
+        screen.blit(big_font.render(status_text[turn_step], True, 'black') ()) # when rendering a font in pygame you need 3 arguments. True is for antialiasing
 # main game loop 
 run = True
 while run:
