@@ -87,7 +87,7 @@ def draw_board():
         pygame.draw.rect(screen, 'gold', [0, 800, WIDTH, 100], 5) # border for it 
         pygame.draw.rect(screen, 'gold', [800, 0, 200, HEIGHT], 5) # golden rectangle on right side going up and down
         status_text = ['White: Select a Piece to Move', 'White: Select a Destination',
-                       'Black: Select a Piece to Move', 'Black: Select a Destination']
+                       'Black: Select a Piece to Move', 'Black: Select a Destination'] # 31:49
         screen.blit(big_font.render(status_text[turn_step], True, 'black') ()) # when rendering a font in pygame you need 3 arguments. True is for antialiasing
 # main game loop 
 run = True
