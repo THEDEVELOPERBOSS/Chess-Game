@@ -53,7 +53,7 @@ white_king = pygame.image.load('assets/images/white king.png')
 white_king = pygame.transform.scale(white_king, (80, 80)) 
 white_king_small = pygame.transform.scale(white_king, (45, 45))
 white_knight = pygame.image.load('assets/images/white knight.png')
-white_knigt = pygame.transform.scale(white_knight, (80, 80)) 
+white_knight = pygame.transform.scale(white_knight, (80, 80)) 
 white_knight_small = pygame.transform.scale(white_knight, (45, 45))
 white_pawn = pygame.image.load('assets/images/white pawn.png')
 white_pawn = pygame.transform.scale(white_pawn, (65, 65)) 
@@ -88,13 +88,27 @@ def draw_board():
         pygame.draw.rect(screen, 'gold', [800, 0, 200, HEIGHT], 5) # golden rectangle on right side going up and down
         status_text = ['White: Select a Piece to Move', 'White: Select a Destination',
                        'Black: Select a Piece to Move', 'Black: Select a Destination'] # 31:49
-        screen.blit(big_font.render(status_text[turn_step], True, 'black') ()) # when rendering a font in pygame you need 3 arguments. True is for antialiasing
+        screen.blit(big_font.render(status_text[turn_step], True, 'black'), (20, 820)) # when rendering a font in pygame you need 3 arguments. True is for antialiasing
+        for i in range(9):
+            pygame.draw.line(screen, 'black', (0, 100 * i), (800, 100 * i), 2) # For horizontal lines to better show checkerboard
+            pygame.draw.line(screen, 'black', (100 * i, 0), (100 * i, 800), 2) # For vertical lines 
+
+
+# draw pieces onto board
+def def_pieces():
+       for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
+        index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
+        if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
+            screen.blit(white_pawn, (white_locations))
+        
+                      
 # main game loop 
 run = True
 while run:
     timer.tick(fps)
     screen.fill('dark gray') # Background color 
     draw_board()
+    draw_pieces()
     
     # Event handling
     for event in pygame.event.get(): # gets keyboard, mouse, etc from computer 
