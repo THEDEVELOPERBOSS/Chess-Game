@@ -97,10 +97,19 @@ def draw_board():
 # draw pieces onto board
 def def_pieces():
        for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
-        index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
-        if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
-            screen.blit(white_pawn, (white_locations)) # time stamp 36:48
-        
+            index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
+            if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
+                screen.blit(white_pawn, (white_locations[i][0] * 100 + 22, white_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
+            else: 
+                screen.blit(white_images[index], (white_locations[i][0] * 100 + 10, white_locations[i][1] * 100 + 10))
+                
+        for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
+            index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
+            if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
+                screen.blit(white_pawn, (white_locations[i][0] * 100 + 22, white_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
+            else: 
+                screen.blit(white_images[index], (white_locations[i][0] * 100 + 10, white_locations[i][1] * 100 + 10))    
+            # 38:34
                       
 # main game loop 
 run = True
