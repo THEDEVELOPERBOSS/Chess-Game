@@ -95,21 +95,34 @@ def draw_board():
 
 
 # draw pieces onto board
-def def_pieces():
-       for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
-            index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
-            if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
-                screen.blit(white_pawn, (white_locations[i][0] * 100 + 22, white_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
-            else: 
-                screen.blit(white_images[index], (white_locations[i][0] * 100 + 10, white_locations[i][1] * 100 + 10))
+def draw_pieces():
+    for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
+        index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
+        if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
+            screen.blit(white_pawn, (white_locations[i][0] * 100 + 22, white_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
+        else: 
+            screen.blit(white_images[index], (white_locations[i][0] * 100 + 10, white_locations[i][1] * 100 + 10))
+        if turn_step < 2: # if it is less than 2 it means that it is the white players turn
+            if selection == i:
+                pygame.draw.rect(screen, 'red', [white_locations[i][0] * 100 + 1, white_locations[i][1] * 100 + 1, 
+                                                 100, 100], 2)
                 
-        for i in range(len(white_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
-            index = piece_list.index(white_pieces[i]) # gets the index of whatever piece is currently being looked at
-            if white_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
-                screen.blit(white_pawn, (white_locations[i][0] * 100 + 22, white_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
-            else: 
-                screen.blit(white_images[index], (white_locations[i][0] * 100 + 10, white_locations[i][1] * 100 + 10))    
-            # 38:34
+    for i in range(len(black_pieces)): # can't just say 16. Needs to check how many pieces are actually on the board
+        index = piece_list.index(black_pieces[i]) # gets the index of whatever piece is currently being looked at
+        if black_pieces[i] == 'pawn': # have to do a seperate for pawns because they are different sizes
+            screen.blit(black_pawn, (black_locations[i][0] * 100 + 22, black_locations[i][1] * 100 + 30)) # 22 and 30 offsets pawns to make them look right
+        else: 
+            screen.blit(black_images[index], (black_locations[i][0] * 100 + 10, black_locations[i][1] * 100 + 10))    
+        if turn_step >= 2: # if it is less than 2 it means that it is the white players turn
+                if selection == i:
+                    pygame.draw.rect(screen, 'blue', [black_locations[i][0] * 100 + 1, black_locations[i][1] * 100 + 1, 
+                                                     100, 100], 2)
+
+
+    
+ # function to check all pieces valid options on board
+def check_options():
+     pass # 51:29
                       
 # main game loop 
 run = True
@@ -123,6 +136,24 @@ while run:
     for event in pygame.event.get(): # gets keyboard, mouse, etc from computer 
         if event.type == pygame.QUIT: # Checks to see if X at top of game window was clicked
             run = False
-            
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # 1 specifies left click
+            x_coord = event.pos[0] // 100
+            y_coord = event.pos[1] // 100
+            click_coords = (x_coord, y_coord)
+            if turn_step <= 1:
+                if click_coords in white_locations:
+                    selection = white_locations.index(click_coords)
+                    if turn_step == 0:
+                        turn_step = 1
+                if click_coords in valid_moves and selection != 100: # 100 is dummy variable. Checks to make sure somewhere valid is clicked
+                    white_locations[selection] = click_coords
+                    if click_coords in black_locations:
+                        black_piece = black_locations.index(click_coords)
+                        captured_pieces_white.append(black_pieces[black_piece])
+                        black_pieces.pop(black_piece) # pop removes it from the list
+                        black_locations.pop(black_piece)
+                    black_options = check_options() # updates valid moves
+                    white_options = check_options()
+                    
     pygame.display.flip()
 pygame.quit()
