@@ -120,11 +120,18 @@ def draw_pieces():
 
 
     
- # function to check all pieces valid options on board
-def check_options():
-     pass # 51:29
+# function to check all pieces valid options on board
+def check_options(pieces, locations, turn):
+    moves_list = []
+    all_moves_list = []
+    for i in range((pieces)):
+        location = locations[i] # location we are actively looking at is equal to our locations list just at I 
+        piece = pieces[i] # piece we are actively looking at is equal to our pieces list just at I 
+    return all_moves_list # 57:34
                       
 # main game loop 
+black_options = check_options(black_pieces, black_locations, 'black') # intially populate black and white options list 
+white_options = check_options(white_pieces, white_locations, 'white')
 run = True
 while run:
     timer.tick(fps)
@@ -152,8 +159,28 @@ while run:
                         captured_pieces_white.append(black_pieces[black_piece])
                         black_pieces.pop(black_piece) # pop removes it from the list
                         black_locations.pop(black_piece)
-                    black_options = check_options() # updates valid moves
-                    white_options = check_options()
+                    black_options = check_options(black_pieces, black_locations, 'black') # updates valid moves
+                    white_options = check_options(white_pieces, white_locations, 'white')
+                    turn_step = 2 
+                    selection = 100
+                    valid_moves = [] # every time its a new part of the turn new moves need to be recalculated
+            if turn_step > 1:  # checks blacks moves
+                if click_coords in black_locations:
+                    selection = black_locations.index(click_coords)
+                    if turn_step == 2:
+                        turn_step = 3
+                if click_coords in valid_moves and selection != 100: # 100 is dummy variable. Checks to make sure somewhere valid is clicked
+                    black_locations[selection] = click_coords
+                    if click_coords in white_locations:
+                        white_piece = white_locations.index(click_coords)
+                        captured_pieces_black.append(white_pieces[white_piece])
+                        white_pieces.pop(white_piece) # pop removes it from the list
+                        white_locations.pop(white_piece)
+                    black_options = check_options(black_pieces, black_locations, 'black') # updates valid moves
+                    white_options = check_options(white_pieces, white_locations, 'white')
+                    turn_step = 0
+                    selection = 100
+                    valid_moves = [] # every time its a new part of the turn new moves need to be recalculated  
                     
     pygame.display.flip()
 pygame.quit()
