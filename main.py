@@ -127,8 +127,25 @@ def check_options(pieces, locations, turn):
     for i in range((pieces)):
         location = locations[i] # location we are actively looking at is equal to our locations list just at I 
         piece = pieces[i] # piece we are actively looking at is equal to our pieces list just at I 
-    return all_moves_list # 57:34
-                      
+        if piece == 'pawn': # checks what each piece is
+            moves_list = check_pawn(location, turn)
+        elif piece == 'rook':
+            moves_list = check_rook(location, turn)
+        elif piece == 'knight':
+            moves_list = check_knight(location, turn)
+        elif piece == 'bishop':
+            moves_list = check_bishop(location, turn)
+        elif piece == 'queen':
+            moves_list = check_queen(location, turn)
+        elif piece == 'king':
+            moves_list = check_king(location, turn)
+        all_moves_list.append(moves_list)
+    return all_moves_list
+
+
+#
+
+                   
 # main game loop 
 black_options = check_options(black_pieces, black_locations, 'black') # intially populate black and white options list 
 white_options = check_options(white_pieces, white_locations, 'white')
