@@ -129,7 +129,7 @@ def check_options(pieces, locations, turn):
         piece = pieces[i] # piece we are actively looking at is equal to our pieces list just at I 
         if piece == 'pawn': # checks what each piece is
             moves_list = check_pawn(location, turn)
-        elif piece == 'rook':
+        '''elif piece == 'rook':
             moves_list = check_rook(location, turn)
         elif piece == 'knight':
             moves_list = check_knight(location, turn)
@@ -138,13 +138,13 @@ def check_options(pieces, locations, turn):
         elif piece == 'queen':
             moves_list = check_queen(location, turn)
         elif piece == 'king':
-            moves_list = check_king(location, turn)
+            moves_list = check_king(location, turn)'''
         all_moves_list.append(moves_list)
     return all_moves_list
 
 
 # check valid pawn moves
-def check_pawn(position, color):
+def check_pawn(position, color): # 1:08:08
     moves_list = []
     if color == 'white':
         if(position[0], position[1] + 1) not in white_locations and \
@@ -153,22 +153,23 @@ def check_pawn(position, color):
         if(position[0], position[1] + 2) not in white_locations and \
                 (position[0], position[1] + 2) not in black_locations and position[1] == 1:
             moves_list.append((position[0], position[1] + 2))
-        if (position[0] + 1, position[1] + 1) in black_locations:
+        if (position[0] + 1, position[1] + 1) in black_locations: # left and right checks
             moves_list.append((position[0] + 1, position[1] + 1))
-        if (position[0] - 1, position[1] + 1) in black_locations: # checks to the left
-            moves_list.append((position[0] - 1, position[1] + 1))
-            
-    if color == 'black':
-        if(position[0], position[1] + 1) not in white_locations and \
-                (position[0], position[1] + 1) not in black_locations and position[1] < 7:
-            moves_list.append((position[0], position[1] + 1))
-        if(position[0], position[1] + 2) not in white_locations and \
-                (position[0], position[1] + 2) not in black_locations and position[1] == 1:
+        if (position[0] - 1, position[1] + 1) in black_locations:
+            moves_list.append((position[0] - 1, position[1] + 1))   
+        
+    else:
+        if(position[0], position[1] - 1) not in white_locations and \
+                (position[0], position[1] - 1) not in black_locations and position[1] > 0:
+            moves_list.append((position[0], position[1] - 1))
+        if(position[0], position[1] - 2) not in white_locations and \
+                (position[0], position[1] - 2) not in black_locations and position[1] == 6:
             moves_list.append((position[0], position[1] + 2))
-        if (position[0] + 1, position[1] + 1) in black_locations:
-            moves_list.append((position[0] + 1, position[1] + 1))
-        if (position[0] - 1, position[1] + 1) in black_locations: # checks to the left
-            moves_list.append((position[0] - 1, position[1] + 1)) # 1:05:39
+        if (position[0] + 1, position[1] - 1) in white_locations: # left and right checks
+            moves_list.append((position[0] + 1, position[1] - 1))
+        if (position[0] - 1, position[1] - 1) in white_locations: 
+            moves_list.append((position[0] - 1, position[1] - 1))
+    return moves_list
 # main game loop 
 black_options = check_options(black_pieces, black_locations, 'black') # intially populate black and white options list 
 white_options = check_options(white_pieces, white_locations, 'white')
